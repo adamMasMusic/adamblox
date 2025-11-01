@@ -4,13 +4,16 @@
 
   GM_addStyle(`
     #custom-decal-uploader {
-      border: 2px dashed #656668;
+      border: 2px solid #656668;
       border-radius: 8px;
-      padding: 30px;
+      padding: 40px;
       text-align: center;
       background: #2b2d31;
       color: #ffffff;
       transition: all 0.3s ease;
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 200px;
     }
     #custom-decal-uploader.dragover {
       background: #3c4043;
@@ -59,48 +62,53 @@
     .status-success { background: #00ff88; width: 100%; }
     .status-error { background: #ff4757; width: 100%; }
     .upload-text {
-      font-size: 1.2em;
-      margin-bottom: 10px;
+      font-size: 1.4em;
+      margin-bottom: 15px;
       color: #ffffff;
+      font-weight: 500;
     }
     .upload-info {
-      font-size: 0.9em;
+      font-size: 1em;
       color: #b9bbbe;
-      margin-top: 10px;
+      margin-top: 15px;
+      line-height: 1.5;
     }
     .api-key-setup {
       background: #404249;
       border-radius: 8px;
-      padding: 20px;
+      padding: 30px;
       margin: 20px 0;
+      text-align: left;
     }
     .api-key-input {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       border: 1px solid #656668;
-      border-radius: 4px;
+      border-radius: 6px;
       background: #36393f;
       color: #ffffff;
       font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-      font-size: 11px;
+      font-size: 12px;
       word-break: break-all;
-      height: 60px;
+      height: 80px;
+      resize: vertical;
     }
     .api-key-buttons {
-      margin-top: 15px;
+      margin-top: 20px;
       display: flex;
-      gap: 10px;
+      gap: 15px;
       flex-wrap: wrap;
     }
     .btn {
-      padding: 8px 16px;
+      padding: 12px 24px;
       border: none;
-      border-radius: 4px;
+      border-radius: 6px;
       cursor: pointer;
-      font-size: 0.9em;
+      font-size: 0.95em;
       text-decoration: none;
       display: inline-block;
-      transition: background-color 0.2s;
+      transition: all 0.2s ease;
+      font-weight: 500;
     }
     .btn-primary {
       background: #5865f2;
@@ -108,6 +116,7 @@
     }
     .btn-primary:hover {
       background: #4752c4;
+      transform: translateY(-1px);
     }
     .btn-secondary {
       background: #4f545c;
@@ -115,6 +124,7 @@
     }
     .btn-secondary:hover {
       background: #5d6269;
+      transform: translateY(-1px);
     }
     .btn-danger {
       background: #ed4245;
@@ -122,50 +132,112 @@
     }
     .btn-danger:hover {
       background: #c9302c;
+      transform: translateY(-1px);
     }
     .api-key-status {
-      margin-top: 10px;
-      font-size: 0.9em;
+      margin-top: 15px;
+      font-size: 0.95em;
+      padding: 10px;
+      border-radius: 4px;
+      border-left: 4px solid transparent;
     }
     .status-valid {
       color: #00ff88;
+      background: rgba(0, 255, 136, 0.1);
+      border-left-color: #00ff88;
     }
     .status-invalid {
       color: #ff4757;
+      background: rgba(255, 71, 87, 0.1);
+      border-left-color: #ff4757;
     }
     .creator-setup {
       background: #404249;
       border-radius: 8px;
-      padding: 15px;
-      margin: 15px 0;
+      padding: 20px;
+      margin: 20px 0;
     }
     .creator-options {
       display: flex;
-      gap: 20px;
-      margin: 10px 0;
+      gap: 30px;
+      margin: 15px 0;
       align-items: center;
     }
     .creator-option {
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 8px;
       color: #ffffff;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+    }
+    .creator-option:hover {
+      background: rgba(255, 255, 255, 0.05);
     }
     .creator-option input[type="radio"] {
-      margin-right: 5px;
+      margin: 0;
+      transform: scale(1.1);
     }
     .creator-id-input {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       border: 1px solid #656668;
-      border-radius: 4px;
+      border-radius: 6px;
       background: #36393f;
       color: #ffffff;
       font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-      font-size: 12px;
+      font-size: 13px;
     }
     .creator-id-section {
-      margin-top: 10px;
+      margin-top: 15px;
+    }
+
+    /* Copy Texture ID Button Styles */
+    .btr-copy-texture-btn {
+      display: flex;
+      width: 100%;
+      padding: 8px 12px;
+      align-items: center;
+      justify-content: center;
+      
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.4;
+      text-align: center;
+      
+      border: 1px solid #4a90e2;
+      cursor: pointer;
+      border-radius: 6px;
+      margin-top: 8px;
+      
+      background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+      color: #ffffff;
+      
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
+    }
+    
+    .btr-copy-texture-btn:hover {
+      background: linear-gradient(135deg, #357abd 0%, #2968a3 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+    }
+    
+    .btr-copy-texture-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
+    }
+    
+    .dark-theme .btr-copy-texture-btn {
+      border-color: #4a90e2;
+    }
+
+    /* Success feedback */
+    .btr-copy-texture-btn.copied {
+      background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+      border-color: #28a745;
     }
   `);
 
@@ -174,6 +246,82 @@
   let apiKey = localStorage.getItem('adamblox_opencloud_key');
   let creatorType = localStorage.getItem('adamblox_creator_type') || 'user';
   let creatorId = localStorage.getItem('adamblox_creator_id');
+
+  // Fetch asset data from Roblox API
+  async function fetchAsset(assetId) {
+    const url = `https://apis.roblox.com/toolbox-service/v2/assets/${assetId}`;
+    try {
+      const res = await fetch(url, {
+        credentials: "include",
+        headers: {
+          "Accept": "application/json, text/plain, */*"
+        }
+      });
+      if (!res.ok) throw new Error(res.statusText);
+      return await res.json();
+    } catch (err) {
+      console.error("Asset fetch failed:", err);
+      return null;
+    }
+  }
+
+  // Enhance asset cards with copy buttons
+  function enhanceAssetCards() {
+    document
+      .querySelectorAll('[href*="/dashboard/creations/store/"]')
+      .forEach((el) => {
+        if (el.dataset.btrEnhanced) return;
+        el.dataset.btrEnhanced = "true";
+
+        // Get assetId from the URL
+        const assetId = el.href.split("/store/")[1].split("/")[0];
+
+        // Create the "Copy Texture ID" button
+        const copyTextureBtn = document.createElement("button");
+        copyTextureBtn.textContent = "Copy Texture ID";
+        copyTextureBtn.className = "btr-copy-texture-btn";
+
+        // Add click handler
+        copyTextureBtn.addEventListener("click", async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          try {
+            const data = await fetchAsset(assetId);
+            if (data && data.asset && data.asset.textureId) {
+              await navigator.clipboard.writeText(data.asset.textureId.toString());
+              
+              // Visual feedback
+              const originalText = copyTextureBtn.textContent;
+              copyTextureBtn.textContent = "Copied!";
+              copyTextureBtn.classList.add("copied");
+              
+              setTimeout(() => {
+                copyTextureBtn.textContent = originalText;
+                copyTextureBtn.classList.remove("copied");
+              }, 2000);
+              
+              console.log("Copied Texture ID:", data.asset.textureId);
+            } else {
+              copyTextureBtn.textContent = "No Texture ID";
+              setTimeout(() => {
+                copyTextureBtn.textContent = "Copy Texture ID";
+              }, 2000);
+              console.warn("No textureId for asset", assetId);
+            }
+          } catch (err) {
+            console.error("Failed to copy texture ID:", err);
+            copyTextureBtn.textContent = "Failed";
+            setTimeout(() => {
+              copyTextureBtn.textContent = "Copy Texture ID";
+            }, 2000);
+          }
+        });
+
+        // Append button under the asset link
+        el.parentElement.appendChild(copyTextureBtn);
+      });
+  }
 
   // Find and replace the existing upload interface
   function replaceUploadInterface() {
@@ -255,16 +403,16 @@
   function createApiKeySetup() {
     return `
       <div class="api-key-setup">
-        <div class="upload-text">🔑 OpenCloud API Key Required</div>
+        <div class="upload-text">OpenCloud API Key Required</div>
         <div class="upload-info">
           To upload multiple decals, you need a Roblox OpenCloud API key with Asset creation permissions.
         </div>
-        <div style="margin: 15px 0;">
+        <div style="margin: 20px 0;">
           <textarea class="api-key-input" placeholder="Paste your OpenCloud API key here..." id="api-key-input">${apiKey || ''}</textarea>
-          <div id="api-key-status" class="api-key-status"></div>
+          <div id="api-key-status" class="api-key-status" style="display: none;"></div>
         </div>
         <div class="creator-setup">
-          <div style="margin-bottom: 10px; color: #ffffff;">Upload as:</div>
+          <div style="margin-bottom: 15px; color: #ffffff; font-size: 1.1em; font-weight: 500;">Upload as:</div>
           <div class="creator-options">
             <label class="creator-option">
               <input type="radio" name="creator-type" value="user" ${creatorType === 'user' ? 'checked' : ''} id="creator-user">
@@ -276,13 +424,13 @@
             </label>
           </div>
           <div class="creator-id-section">
-            <div style="margin-bottom: 5px; color: #ffffff;" id="creator-id-label">
+            <div style="margin-bottom: 8px; color: #ffffff; font-weight: 500;" id="creator-id-label">
               ${creatorType === 'user' ? 'Your User ID:' : 'Group ID:'}
             </div>
             <input type="text" class="creator-id-input" placeholder="${creatorType === 'user' ? 'Enter your Roblox User ID' : 'Enter Group ID'}" id="creator-id-input" value="${creatorId || ''}">
-            <div style="font-size: 0.8em; color: #b9bbbe; margin-top: 5px;" id="creator-id-help">
+            <div style="font-size: 0.9em; color: #b9bbbe; margin-top: 8px;" id="creator-id-help">
               ${creatorType === 'user' ? 
-                'Find your User ID at: <a href="https://www.roblox.com/users/profile" target="_blank" style="color: #00a2ff;">roblox.com/users/profile</a>' :
+                'Find your User ID at: <a href="https://www.roblox.com/users/profile" target="_blank" style="color: #4a90e2;">roblox.com/users/profile</a>' :
                 'Find Group ID in the group URL: roblox.com/groups/<strong>GROUP_ID</strong>/group-name'
               }
             </div>
@@ -294,7 +442,7 @@
             Get API Key from Roblox
           </a>
         </div>
-        <div class="upload-info" style="margin-top: 15px;">
+        <div class="upload-info" style="margin-top: 20px;">
           <strong>Required permissions:</strong> Create assets<br>
           <strong>Note:</strong> Your settings are stored locally in your browser only.
         </div>
@@ -305,13 +453,13 @@
   function createUploadInterface() {
     const creatorDisplayText = creatorType === 'user' ? `User ID: ${creatorId}` : `Group ID: ${creatorId}`;
     return `
-      <div class="upload-text">💾 Drop multiple decal images here to upload!</div>
+      <div class="upload-text">Drop multiple decal images here to upload</div>
       <div class="upload-info">
         Format: *.jpg, *.png, *.tga, *.bmp | Max size per file: 20 MB<br>
-        Using OpenCloud API ✓ | Uploading as ${creatorType} | ${creatorDisplayText}
+        Using OpenCloud API | Uploading as ${creatorType} | ${creatorDisplayText}
       </div>
-      <div style="margin: 10px 0;">
-        <button class="btn btn-danger" id="clear-api-key" style="font-size: 0.8em;">Clear Settings</button>
+      <div style="margin: 15px 0;">
+        <button class="btn btn-danger" id="clear-api-key" style="font-size: 0.9em;">Clear Settings</button>
       </div>
       <div id="upload-grid" class="upload-grid"></div>
     `;
@@ -442,21 +590,10 @@
       await new Promise(resolve => setTimeout(resolve, 2000));
     }
 
-    // Show results after all uploads complete
+    // Refresh page when all uploads are complete
     if (completedUploads === uploadQueue.length) {
       setTimeout(() => {
-        const successCount = uploadQueue.filter(item => item.status === 'success').length;
-        const errorCount = uploadQueue.filter(item => item.status === 'error').length;
-        
-        let message = `Upload complete!\n✅ Success: ${successCount}\n❌ Failed: ${errorCount}`;
-        if (successCount > 0) {
-          message += '\n\nPage will reload to show your new decals.';
-        }
-        
-        alert(message);
-        if (successCount > 0) {
-          location.reload();
-        }
+        location.reload();
       }, 1000);
     }
   }
@@ -591,7 +728,7 @@
       if (selectedType === 'user') {
         creatorIdLabel.textContent = 'Your User ID:';
         creatorIdInput.placeholder = 'Enter your Roblox User ID';
-        creatorIdHelp.innerHTML = 'Find your User ID at: <a href="https://www.roblox.com/users/profile" target="_blank" style="color: #00a2ff;">roblox.com/users/profile</a>';
+        creatorIdHelp.innerHTML = 'Find your User ID at: <a href="https://www.roblox.com/users/profile" target="_blank" style="color: #4a90e2;">roblox.com/users/profile</a>';
       } else {
         creatorIdLabel.textContent = 'Group ID:';
         creatorIdInput.placeholder = 'Enter Group ID';
@@ -609,18 +746,23 @@
         const key = keyInput.value.trim();
         const creatorIdValue = creatorIdInput.value.trim();
         
+        statusDiv.style.display = 'block';
+        
         if (!key) {
           statusDiv.innerHTML = '<span class="status-invalid">Please enter an API key</span>';
+          statusDiv.className = 'api-key-status status-invalid';
           return;
         }
 
         if (!creatorIdValue || !/^\d+$/.test(creatorIdValue)) {
           statusDiv.innerHTML = `<span class="status-invalid">Please enter a valid ${creatorType === 'user' ? 'User' : 'Group'} ID (numbers only)</span>`;
+          statusDiv.className = 'api-key-status status-invalid';
           return;
         }
 
         if (key.length < 50) {
           statusDiv.innerHTML = '<span class="status-invalid">API key seems too short - make sure you copied the full key</span>';
+          statusDiv.className = 'api-key-status status-invalid';
           return;
         }
 
@@ -631,7 +773,8 @@
         localStorage.setItem('adamblox_creator_type', creatorType);
         localStorage.setItem('adamblox_creator_id', creatorIdValue);
         
-        statusDiv.innerHTML = '<span class="status-valid">✓ Settings saved! Upload a file to test the API key.</span>';
+        statusDiv.innerHTML = 'Settings saved! Upload a file to test the API key.';
+        statusDiv.className = 'api-key-status status-valid';
         
         setTimeout(() => {
           const uploader = document.getElementById('custom-decal-uploader');
@@ -693,13 +836,22 @@
           setupApiKeyHandlers();
         }
       }
+      
+      // Also enhance asset cards when new content loads
+      enhanceAssetCards();
     });
     
     observer.observe(document.body, {
       childList: true,
       subtree: true
     });
+
+    // Enhance existing asset cards
+    enhanceAssetCards();
   }
 
   init();
+
+  // Keep enhancing as new cards load dynamically
+  setInterval(enhanceAssetCards, 3000);
 })();

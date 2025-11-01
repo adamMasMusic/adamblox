@@ -83,6 +83,49 @@
     padding-left: 4px !important;
     padding-right: 4px !important;
   }
+
+  /* --- Custom Create/Design Icon --- */
+  .icon-nav-create-btr {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23bdbebe' viewBox='0 0 24 24'%3E%3Cpath d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+    vertical-align: middle;
+  }
+
+  /* --- Create navbar item styling --- */
+  #btr-navbar-create {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  #btr-navbar-create .rbx-menu-item {
+    color: #bdbebe;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    height: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+
+  #btr-navbar-create .rbx-menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+
+  #btr-navbar-create .rbx-menu-item:hover .icon-nav-create-btr {
+    opacity: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 24 24'%3E%3Cpath d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z'/%3E%3C/svg%3E");
+  }
 `);
 
   // Map Roblox presence class → ring style
@@ -125,11 +168,9 @@
       ring.className = "btr-presence-ring " + ringClass;
     }
 
-    // Hide Roblox presence icon safely (don’t delete)
+    // Hide Roblox presence icon safely (don't delete)
     const statusContainer = tile.querySelector(".avatar-status");
     if (statusContainer) statusContainer.style.display = "none";
-
-    console.log(`[Presence Debug] ${userName} → ${ringClass}`);
   }
 
   /** Process all friend tiles currently in the list */
@@ -141,6 +182,32 @@
         console.warn("Friend enhancement failed:", err);
       }
     });
+  }
+
+  /** Add Create Dashboard link to navbar */
+  function addCreateNavItem() {
+    const navbar = document.querySelector('.nav.navbar-right.rbx-navbar-icon-group');
+    if (!navbar || document.getElementById('btr-navbar-create')) {
+      return; // Already exists or navbar not found
+    }
+
+    // Find the friends icon to insert before it
+    const friendsItem = document.getElementById('btr-navbar-friends');
+    if (!friendsItem) return;
+
+    // Create the create dashboard nav item
+    const createItem = document.createElement('li');
+    createItem.id = 'btr-navbar-create';
+    createItem.className = 'navbar-icon-item btr-nav-node-header_create btr-nav-header_create';
+
+    createItem.innerHTML = `
+      <a class="rbx-menu-item" href="https://create.roblox.com/dashboard/creations?activeTab=Decal" target="_blank" title="Create Dashboard">
+        <span class="icon-nav-create-btr"></span>
+      </a>
+    `;
+
+    // Insert before the friends item
+    navbar.insertBefore(createItem, friendsItem);
   }
 
   // Observe both tile insertion and attribute changes on presence nodes
@@ -170,6 +237,15 @@
   // Safety recheck every few seconds
   setInterval(updateFriendTiles, 3000);
 
+  // Add create nav item when page loads
+  function initCreateNavItem() {
+    addCreateNavItem();
+    // Retry a few times in case navbar loads later
+    setTimeout(addCreateNavItem, 1000);
+    setTimeout(addCreateNavItem, 3000);
+  }
+
   // Run immediately on load
   updateFriendTiles();
+  initCreateNavItem();
 })();
