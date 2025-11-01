@@ -4,6 +4,7 @@
 // @version      1.0
 // @description  Some random stuff I need to add to roblox
 // @match        https://www.roblox.com/*
+// @match        https://create.roblox.com/*
 // @match        https://create.roblox.com/dashboard/creations*
 // @require      https://raw.githubusercontent.com/adamMasMusic/adamblox/refs/heads/main/ui.js
 // @require      https://raw.githubusercontent.com/adamMasMusic/adamblox/refs/heads/main/decals.js
