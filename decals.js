@@ -1,6 +1,47 @@
 (function () {
   'use strict';
-  if (!location.href.includes('activeTab=Decal')) return;
+  
+  let currentUrl = location.href;
+  let initialized = false;
+  let observers = [];
+  let initRetryTimer = null;
+  
+  // Check if we should be active on current page
+  function shouldBeActive() {
+    return location.href.includes('activeTab=Decal');
+  }
+  
+  // Clean up all observers and enhanced elements
+  function cleanup() {
+    console.log('Cleaning up Adamblox decal uploader');
+    
+    // Remove all observers
+    observers.forEach(observer => observer.disconnect());
+    observers = [];
+    
+    // Clear retry timer
+    if (initRetryTimer) {
+      clearTimeout(initRetryTimer);
+      initRetryTimer = null;
+    }
+    
+    // Remove custom uploader if it exists
+    const customUploader = document.getElementById('custom-decal-uploader');
+    if (customUploader) {
+      customUploader.remove();
+    }
+    
+    // Remove enhanced asset cards
+    document.querySelectorAll('[data-btr-enhanced="true"]').forEach(el => {
+      delete el.dataset.btrEnhanced;
+    });
+    
+    document.querySelectorAll('.btr-copy-texture-btn').forEach(btn => {
+      btn.remove();
+    });
+    
+    initialized = false;
+  }
 
   GM_addStyle(`
     #custom-decal-uploader {
@@ -805,9 +846,30 @@
     }
   }
 
-  // Wait for page to load and then replace the interface
+  // Initialize the script with proper retry logic
   function init() {
+    if (!shouldBeActive()) {
+      console.log('Not on decal page, script inactive');
+      return;
+    }
+    
+    if (initialized) {
+      console.log('Already initialized, skipping');
+      return;
+    }
+    
+    console.log('Initializing Adamblox decal uploader');
+    initialized = true;
+    
+    // Clear any existing retry timer
+    if (initRetryTimer) {
+      clearTimeout(initRetryTimer);
+      initRetryTimer = null;
+    }
+    
     const tryReplace = () => {
+      if (!shouldBeActive()) return; // Check we're still on the right page
+      
       if (replaceUploadInterface()) {
         console.log('Upload interface successfully replaced');
         
@@ -819,17 +881,17 @@
       }
       
       // If we haven't found it yet, try again in a bit
-      setTimeout(tryReplace, 1000);
+      console.log('Upload interface not found, retrying in 1 second...');
+      initRetryTimer = setTimeout(tryReplace, 1000);
     };
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', tryReplace);
-    } else {
-      tryReplace();
-    }
+    // Start trying to replace immediately
+    tryReplace();
 
     // Set up mutation observer for dynamic content
     const observer = new MutationObserver(() => {
+      if (!shouldBeActive()) return;
+      
       if (!document.getElementById('custom-decal-uploader')) {
         replaceUploadInterface();
         if (!apiKey || !creatorId) {
@@ -845,13 +907,48 @@
       childList: true,
       subtree: true
     });
+    
+    observers.push(observer);
 
     // Enhance existing asset cards
     enhanceAssetCards();
+    
+    // Keep enhancing as new cards load dynamically
+    const enhanceInterval = setInterval(() => {
+      if (shouldBeActive()) {
+        enhanceAssetCards();
+      }
+    }, 3000);
   }
-
-  init();
-
-  // Keep enhancing as new cards load dynamically
-  setInterval(enhanceAssetCards, 3000);
+  
+  // Check for URL changes (for single-page app navigation)
+  function checkForUrlChange() {
+    if (currentUrl !== location.href) {
+      console.log('URL changed from', currentUrl, 'to', location.href);
+      currentUrl = location.href;
+      
+      // Clean up if we're no longer on the right page
+      if (!shouldBeActive() && initialized) {
+        console.log('Left decal page, cleaning up');
+        cleanup();
+      } else if (shouldBeActive() && !initialized) {
+        // Initialize if we're on the right page and not initialized
+        console.log('Entered decal page, initializing');
+        init();
+      }
+    }
+  }
+  
+  // Listen for navigation events (for single-page apps)
+  window.addEventListener('popstate', checkForUrlChange);
+  
+  // Check periodically for URL changes (in case pushState is used)
+  setInterval(checkForUrlChange, 1000);
+  
+  // Initial initialization - always try to init first
+  console.log('Adamblox script loaded, checking initial page');
+  if (shouldBeActive()) {
+    init();
+  }
+  
 })();
