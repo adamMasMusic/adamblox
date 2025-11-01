@@ -1,80 +1,87 @@
 (function () {
-  "use strict";
+  'use strict';
 
+  /* --- Friend Presence Ring Styling --- */
   GM_addStyle(`
-    /* --- Friend Presence Ring --- */
     .friend-tile-content .thumbnail-2d-container {
       position: relative;
+      border-radius: 50%;
       display: inline-block;
-      border-radius: 50%;
-      overflow: visible;
+      overflow: hidden;
     }
-    .friend-tile-content .btr-presence-ring {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 110%;
-      height: 110%;
+    .friend-tile-content .thumbnail-2d-container img {
+      display: block;
+      width: 100%;
+      height: auto;
       border-radius: 50%;
-      box-sizing: border-box;
+      object-fit: cover;
+    }
+    .btr-presence-ring {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border-radius: 50%;
       pointer-events: none;
+      transition: box-shadow 0.25s;
     }
     .btr-ring-online  { box-shadow: 0 0 0 3px #43b581; }
     .btr-ring-ingame  { box-shadow: 0 0 0 3px #7289da; }
+    .btr-ring-studio  { box-shadow: 0 0 0 3px #f39c12; }
     .btr-ring-offline { box-shadow: 0 0 0 3px #99aab5; }
   `);
 
+  function detectPresence(titleText) {
+    if (!titleText) return 'btr-ring-offline';
+    const title = titleText.toLowerCase();
+    if (title.includes('in studio')) return 'btr-ring-studio';
+    if (title.includes('game')) return 'btr-ring-ingame';
+    if (title.includes('online')) return 'btr-ring-online';
+    return 'btr-ring-offline';
+  }
+
+  function enhanceFriend(tile) {
+    if (tile.dataset.btrEnhanced) return;
+    const avatarImg = tile.querySelector('.thumbnail-2d-container img');
+    const statusEl = tile.querySelector('.avatar-status span');
+    const nameEl = tile.querySelector('.friends-carousel-display-name');
+    if (!avatarImg || !statusEl) return;
+
+    const presenceTitle = statusEl.getAttribute('title') || '';
+    const ringClass = detectPresence(presenceTitle);
+
+    // Debug info
+    const userName = nameEl ? nameEl.textContent.trim() : 'UnknownUser';
+    console.log(`[Presence Debug] ${userName}: "${presenceTitle}" → ${ringClass}`);
+
+    // Insert ring overlay only once
+    const thumb = avatarImg.closest('.thumbnail-2d-container');
+    if (thumb && !thumb.querySelector('.btr-presence-ring')) {
+      const ring = document.createElement('div');
+      ring.className = `btr-presence-ring ${ringClass}`;
+      thumb.appendChild(ring);
+    }
+
+    // Safe remove of small icon
+    statusEl.remove();
+
+    tile.dataset.btrEnhanced = 'true';
+  }
+
   function updateFriendTiles() {
-    document.querySelectorAll(".friend-tile-content").forEach((tile) => {
-      if (tile.dataset.btrEnhanced) return;
-      tile.dataset.btrEnhanced = "true";
-
-      const thumb = tile.querySelector(".thumbnail-2d-container");
-      const statusEl = tile.querySelector(".avatar-status span");
-      if (!thumb || !statusEl) return;
-
-      // Determine presence
-      const title = (statusEl.getAttribute("title") || "").toLowerCase();
-      let cls = "btr-ring-offline";
-      if (title.includes("game")) cls = "btr-ring-ingame";
-      else if (title.includes("online")) cls = "btr-ring-online";
-
-      // Create overlay ring if not present
-      if (!thumb.querySelector(".btr-presence-ring")) {
-        const ring = document.createElement("div");
-        ring.className = `btr-presence-ring ${cls}`;
-        thumb.appendChild(ring);
+    document.querySelectorAll('.friend-tile-content').forEach((tile) => {
+      try {
+        enhanceFriend(tile);
+      } catch (err) {
+        console.warn('Friend enhancement failed:', err);
       }
-
-      // Remove only the icon, not layout container
-      statusEl.parentElement.remove();
     });
   }
 
-  // Observe DOM changes so we patch only fully rendered elements
-  const observer = new MutationObserver(updateFriendTiles);
+  // Observation for dynamic reloads
+  const observer = new MutationObserver(() => {
+    requestIdleCallback(updateFriendTiles);
+  });
   observer.observe(document.body, { childList: true, subtree: true });
 
-  // Run once initially
-  updateFriendTiles();
-
-  window.addEventListener("load", () => {
-    const nav = document.querySelector(".rbx-navbar-icon-group");
-    if (!nav || document.querySelector("#btr-edit-icon")) return;
-
-    const li = document.createElement("li");
-    li.className = "navbar-icon-item";
-    li.innerHTML = `
-    <button id="btr-edit-icon" title="Decal Creator" class="btn-navigation-nav-edit">
-      ✏️
-    </button>
-  `;
-    li.querySelector("button").addEventListener("click", () => {
-      window.location.href =
-        "https://create.roblox.com/dashboard/creations?activeTab=Decal";
-    });
-
-    nav.appendChild(li);
-  });
+  // Initial run after a short delay to ensure presence data has loaded
+  setTimeout(updateFriendTiles, 1000);
 })();
