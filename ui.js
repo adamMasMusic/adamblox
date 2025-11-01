@@ -1,67 +1,80 @@
 (function () {
-  'use strict';
+  "use strict";
 
-  // Inject styles for friend presence ring
   GM_addStyle(`
-    .friend-avatar-ring {
-      border-radius: 50%;
-      padding: 3px;
+    /* --- Friend Presence Ring --- */
+    .friend-tile-content .thumbnail-2d-container {
+      position: relative;
       display: inline-block;
-      background-clip: content-box;
+      border-radius: 50%;
+      overflow: visible;
     }
-    .status-online { box-shadow: 0 0 0 3px #43b581; }
-    .status-ingame { box-shadow: 0 0 0 3px #7289da; }
-    .status-offline { box-shadow: 0 0 0 3px #99aab5; }
+    .friend-tile-content .btr-presence-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 110%;
+      height: 110%;
+      border-radius: 50%;
+      box-sizing: border-box;
+      pointer-events: none;
+    }
+    .btr-ring-online  { box-shadow: 0 0 0 3px #43b581; }
+    .btr-ring-ingame  { box-shadow: 0 0 0 3px #7289da; }
+    .btr-ring-offline { box-shadow: 0 0 0 3px #99aab5; }
   `);
 
-  // Helper to recolor avatars
-  function enhanceFriends() {
-    document.querySelectorAll('.friend-tile-content').forEach((tile) => {
+  function updateFriendTiles() {
+    document.querySelectorAll(".friend-tile-content").forEach((tile) => {
       if (tile.dataset.btrEnhanced) return;
-      tile.dataset.btrEnhanced = 'true';
+      tile.dataset.btrEnhanced = "true";
 
-      const statusEl = tile.querySelector('.avatar-status span');
-      const avatarImg = tile.querySelector('.avatar-card-image img');
-      if (!statusEl || !avatarImg) return;
+      const thumb = tile.querySelector(".thumbnail-2d-container");
+      const statusEl = tile.querySelector(".avatar-status span");
+      if (!thumb || !statusEl) return;
 
-      // Determine status color
-      const title = (statusEl.getAttribute('title') || '').toLowerCase();
-      let statusClass = 'status-offline';
-      if (title.includes('game')) statusClass = 'status-ingame';
-      else if (title.includes('online')) statusClass = 'status-online';
+      // Determine presence
+      const title = (statusEl.getAttribute("title") || "").toLowerCase();
+      let cls = "btr-ring-offline";
+      if (title.includes("game")) cls = "btr-ring-ingame";
+      else if (title.includes("online")) cls = "btr-ring-online";
 
-      // Wrap avatar
-      const wrapper = document.createElement('div');
-      wrapper.className = `friend-avatar-ring ${statusClass}`;
-      avatarImg.parentElement.replaceWith(wrapper);
-      wrapper.appendChild(avatarImg);
+      // Create overlay ring if not present
+      if (!thumb.querySelector(".btr-presence-ring")) {
+        const ring = document.createElement("div");
+        ring.className = `btr-presence-ring ${cls}`;
+        thumb.appendChild(ring);
+      }
 
-      // Remove original small presence icon
-      statusEl.remove();
+      // Remove only the icon, not layout container
+      statusEl.parentElement.remove();
     });
   }
 
-  // Continuously apply changes as friends reload
-  setInterval(enhanceFriends, 2000);
+  // Observe DOM changes so we patch only fully rendered elements
+  const observer = new MutationObserver(updateFriendTiles);
+  observer.observe(document.body, { childList: true, subtree: true });
 
-  // Add pencil icon to navbar
-  window.addEventListener('load', () => {
-    const nav = document.querySelector('.navbar-right.rbx-navbar-right ul');
-    if (!nav || document.querySelector('#btr-edit-icon')) return;
+  // Run once initially
+  updateFriendTiles();
 
-    const li = document.createElement('li');
-    li.className = 'navbar-icon-item';
+  window.addEventListener("load", () => {
+    const nav = document.querySelector(".rbx-navbar-icon-group");
+    if (!nav || document.querySelector("#btr-edit-icon")) return;
+
+    const li = document.createElement("li");
+    li.className = "navbar-icon-item";
     li.innerHTML = `
-      <button id="btr-edit-icon" title="Open Decal Page" class="btn-navigation-nav-edit">
-        ✏️
-      </button>
-    `;
-
-    li.querySelector('button').addEventListener('click', () => {
+    <button id="btr-edit-icon" title="Decal Creator" class="btn-navigation-nav-edit">
+      ✏️
+    </button>
+  `;
+    li.querySelector("button").addEventListener("click", () => {
       window.location.href =
-        'https://create.roblox.com/dashboard/creations?activeTab=Decal';
+        "https://create.roblox.com/dashboard/creations?activeTab=Decal";
     });
 
-    nav.insertBefore(li, nav.firstChild);
+    nav.appendChild(li);
   });
 })();
