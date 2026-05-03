@@ -57,20 +57,6 @@
       box-shadow: none;
     }
 
-    /* --- Force horizontal spacing between friend tiles --- */
-    .friends-carousel-list-container,
-    .friends-carousel-list-container-not-full {
-      display: flex !important;
-      flex-wrap: nowrap !important;
-      overflow: visible !important;
-      column-gap: 4px !important;
-      row-gap: 0 !important;
-    }
-
-    .friends-carousel-tile {
-      margin: 0 4px !important;
-    }
-
     .friends-carousel-container {
       padding-left: 4px !important;
       padding-right: 4px !important;

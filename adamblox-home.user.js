@@ -68,15 +68,6 @@
       box-shadow: none;
     }
 
-    .friends-carousel-list-container,
-    .friends-carousel-list-container-not-full {
-      display: flex !important;
-      flex-wrap: nowrap !important;
-      overflow: visible !important;
-      column-gap: 4px !important;
-      row-gap: 0 !important;
-    }
-
     .friends-carousel-tile {
       margin: 0 4px !important;
     }
@@ -264,9 +255,18 @@
 
     .friends-carousel-list-container,
     .friends-carousel-list-container-not-full {
-      display: grid !important;
-      grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)) !important;
-      gap: 10px !important;
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      gap: 16px !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
+      overflow-x: auto !important;
+    }
+
+    .friends-carousel-tile {
+      flex: 0 0 auto !important;
+      width: auto !important;
     }
 
     .games-padding { margin-top: 80px !important; }

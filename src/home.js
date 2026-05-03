@@ -77,9 +77,18 @@
 
     .friends-carousel-list-container,
     .friends-carousel-list-container-not-full {
-      display: grid !important;
-      grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)) !important;
-      gap: 10px !important;
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      gap: 16px !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
+      overflow-x: auto !important;
+    }
+
+    .friends-carousel-tile {
+      flex: 0 0 auto !important;
+      width: auto !important;
     }
 
     .games-padding { margin-top: 80px !important; }
