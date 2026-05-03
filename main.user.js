@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Adamblox
 // @namespace    https://github.com/adamMasMusic/adamblox
-// @version      2.6
+// @version      2.7
 // @description  Theme, presence rings, home UI, decal uploader — all in one
 // @author       adamMasMusic
 // @match        https://www.roblox.com/*
@@ -227,9 +227,9 @@ if (location.hostname === 'www.roblox.com') {
       box-shadow: 0 0 6px rgba(255,255,255,0.08), 0 0 12px rgba(255,255,255,0.06);
       backdrop-filter: blur(6px);
       border-radius: 20px !important;
-      padding: 10px 20px 20px !important;
+      padding: 10px 20px 24px !important;
       box-sizing: border-box !important;
-      margin-bottom: 32px !important;
+      margin-bottom: 56px !important;
     }
 
     .friends-carousel-list-container,
