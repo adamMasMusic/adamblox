@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Roblox Modernizer & Enhancer",
+  "version": "1.0",
+  "description": "Modernizes the Roblox UI and adds useful enhancements like presence rings.",
+  "content_scripts": [
+    {
+      "matches": ["https://*.roblox.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css", "modern.css"],
+      "run_at": "document_start"
+    }
+  ],
+  "permissions": []
+}

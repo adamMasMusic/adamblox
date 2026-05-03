@@ -1,0 +1,110 @@
+/* --- Universal ring wrapper --- */
+.btr-presence-ring {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: 0.3s ease;
+  border: 6px solid currentColor;
+  z-index: 10;
+}
+
+/* --- Status color + halo --- */
+.btr-ring-online {
+  color: #7289da;
+  box-shadow: 0 0 15px currentColor, 0 0 30px currentColor inset;
+}
+
+.btr-ring-ingame {
+  color: #43b581;
+  box-shadow: 0 0 15px currentColor, 0 0 30px currentColor inset;
+}
+
+.btr-ring-studio {
+  color: #f39c12;
+  box-shadow: 0 0 15px currentColor, 0 0 30px currentColor inset;
+}
+
+/* --- Offline/default: flat gray, no halo --- */
+.btr-ring-offline {
+  color: #6c7377ff;
+  box-shadow: none;
+}
+
+/* --- Custom Create/Design Icon --- */
+.icon-nav-create-btr {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23bdbebe' viewBox='0 0 24 24'%3E%3Cpath d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+  vertical-align: middle;
+}
+
+/* --- Create navbar item styling --- */
+#btr-navbar-create {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+#btr-navbar-create .rbx-menu-item {
+  color: #bdbebe;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  height: 100%;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+#btr-navbar-create .rbx-menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+#btr-navbar-create .rbx-menu-item:hover .icon-nav-create-btr {
+  opacity: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 24 24'%3E%3Cpath d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z'/%3E%3C/svg%3E");
+}
+
+/* --- Layout Fixes (Prevent Clipping) --- */
+.friends-carousel-list-container,
+.friends-carousel-list-container-not-full {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow: visible !important;
+  column-gap: 4px !important;
+  row-gap: 0 !important;
+  padding-top: 10px !important;
+  /* Space for top halos */
+  padding-bottom: 10px !important;
+  /* Space for bottom halos */
+}
+
+.friends-carousel-tile {
+  margin: 0 4px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  overflow: visible !important;
+}
+
+.friends-carousel-container {
+  padding-left: 4px !important;
+  padding-right: 4px !important;
+  overflow: visible !important;
+}
+
+.friend-tile-content .avatar-card-fullbody,
+.friend-tile-content .thumbnail-2d-container {
+  overflow: visible !important;
+}

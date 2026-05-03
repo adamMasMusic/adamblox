@@ -1,0 +1,139 @@
+/* --- RoGold-Inspired Minimalist Theme --- */
+
+:root {
+    --bg-dark: #121212;
+    --bg-card: #1e1e1e;
+    --accent-primary: #00a2ff;
+    --accent-hover: #33b4ff;
+    --text-main: #ffffff;
+    --text-muted: #a0a0a0;
+    --border-subtle: #2a2a2a;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+}
+
+body {
+    background-color: var(--bg-dark) !important;
+    color: var(--text-main) !important;
+    font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+}
+
+/* --- Navbar --- */
+.rbx-header {
+    background-color: rgba(18, 18, 18, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+.rbx-navbar-search .rbx-navbar-search-option {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    color: var(--text-main) !important;
+}
+
+/* --- Sidebar --- */
+.rbx-left-col {
+    background-color: transparent !important;
+}
+
+.rbx-left-col li .text-nav {
+    color: var(--text-muted) !important;
+    font-weight: 500 !important;
+}
+
+.rbx-left-col li:hover .text-nav {
+    color: var(--text-main) !important;
+}
+
+/* --- Cards (Games, Items, Friends) --- */
+.game-card-container,
+.item-card-container,
+.friend-tile-content,
+.store-card {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.game-card-container:hover,
+.item-card-container:hover,
+.friend-tile-content:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3) !important;
+    border-color: var(--accent-primary) !important;
+}
+
+/* --- Typography --- */
+.text-name,
+.game-card-name,
+.item-card-name {
+    color: var(--text-main) !important;
+    font-weight: 600 !important;
+}
+
+.text-description,
+.game-card-info,
+.item-card-price {
+    color: var(--text-muted) !important;
+}
+
+/* --- Buttons --- */
+.btn-primary-md,
+.btn-growth-md,
+.btn-cta-md {
+    background-color: var(--accent-primary) !important;
+    border: none !important;
+    border-radius: var(--radius-sm) !important;
+    font-weight: 600 !important;
+    transition: background-color 0.2s ease !important;
+}
+
+.btn-primary-md:hover,
+.btn-growth-md:hover {
+    background-color: var(--accent-hover) !important;
+}
+
+.btn-secondary-md,
+.btn-control-md {
+    background-color: transparent !important;
+    border: 1px solid var(--border-subtle) !important;
+    color: var(--text-main) !important;
+}
+
+.btn-secondary-md:hover {
+    border-color: var(--text-main) !important;
+}
+
+/* --- Inputs --- */
+input.form-control,
+select.input-field {
+    background-color: #252525 !important;
+    border: 1px solid var(--border-subtle) !important;
+    color: var(--text-main) !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+input.form-control:focus {
+    border-color: var(--accent-primary) !important;
+}
+
+/* --- Clean Up --- */
+.rbx-content,
+.content-height,
+.container-main,
+.section-content {
+    background: transparent !important;
+}
+
+.container-footer {
+    background-color: var(--bg-card) !important;
+    border-top: 1px solid var(--border-subtle) !important;
+}
+
+/* Remove ad placeholders if possible via CSS */
+.ad-slot,
+.abp {
+    display: none !important;
+}
