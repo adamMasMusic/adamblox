@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Adamblox
 // @namespace    https://github.com/adamMasMusic/adamblox
-// @version      2.7
+// @version      2.8
 // @description  Theme, presence rings, home UI, decal uploader — all in one
 // @author       adamMasMusic
 // @match        https://www.roblox.com/*
@@ -453,7 +453,10 @@ if (location.hostname === 'www.roblox.com') {
 
     function initHome() {
       makeGreeting();
-      waitFor(".friends-carousel-container", el => el.classList.add("friends-background"));
+      waitFor(".friends-carousel-container", el => {
+        el.classList.add("friends-background");
+        el.style.marginBottom = "56px";
+      });
       waitFor(".groups-showcase", el => el.classList.add("games-padding"));
       waitFor("#HomeContainer", el => el.classList.add("home-width"));
       waitFor(".section", el => el.remove());
