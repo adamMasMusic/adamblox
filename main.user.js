@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Adamblox
 // @namespace    https://github.com/adamMasMusic/adamblox
-// @version      2.4
+// @version      2.5
 // @description  Theme, presence rings, home UI, decal uploader — all in one
 // @author       adamMasMusic
 // @match        https://www.roblox.com/*
@@ -256,8 +256,8 @@ if (location.hostname === 'www.roblox.com') {
       padding-right: 0 !important;
     }
 
-    /* Glass card on every game section inside the home page container */
-    .game-home-page-container > div > div {
+    /* Glass card on game sections — exclude elements already handled by data-testid rule */
+    .game-home-page-container > div > div:not([data-testid="game-carousel"]):not([data-testid="game-grid"]) {
       background-color: rgba(25, 27, 29, 0.3) !important;
       border: 1px solid rgba(255, 255, 255, 0.15) !important;
       box-shadow: 0 0 6px rgba(255,255,255,0.08), 0 0 12px rgba(255,255,255,0.06) !important;
@@ -270,15 +270,15 @@ if (location.hostname === 'www.roblox.com') {
 
     [data-testid="game-carousel"] {
       background-color: rgba(25,27,29,0.3) !important;
-      border: 1px solid rgba(255,255,255,0.15);
-      box-shadow: 0 0 6px rgba(255,255,255,0.08), 0 0 12px rgba(255,255,255,0.06);
-      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.15) !important;
+      box-shadow: 0 0 6px rgba(255,255,255,0.08), 0 0 12px rgba(255,255,255,0.06) !important;
+      backdrop-filter: blur(6px) !important;
       border-radius: 20px !important;
       padding: 1rem 1.5rem !important;
       box-sizing: border-box !important;
       overflow: clip !important;
       width: 100% !important;
-      margin: 0 auto 40px auto !important;
+      margin: 0 auto 24px auto !important;
     }
 
     [data-testid="game-grid"] {
