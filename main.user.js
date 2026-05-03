@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Adamblox
 // @namespace    https://github.com/adamMasMusic/adamblox
-// @version      2.5
+// @version      2.6
 // @description  Theme, presence rings, home UI, decal uploader — all in one
 // @author       adamMasMusic
 // @match        https://www.roblox.com/*
@@ -256,8 +256,8 @@ if (location.hostname === 'www.roblox.com') {
       padding-right: 0 !important;
     }
 
-    /* Glass card on game sections — exclude elements already handled by data-testid rule */
-    .game-home-page-container > div > div:not([data-testid="game-carousel"]):not([data-testid="game-grid"]) {
+    /* Glass card on game sections — exclude containers that are inner wrappers or already styled */
+    .game-home-page-container > div > div:not([data-testid="game-carousel"]):not([data-testid="game-grid"]):not(.btr-friends-list):not(.friend-carousel-container):not(.game-sort-carousel-wrapper):not(.wide-game-tile-list) {
       background-color: rgba(25, 27, 29, 0.3) !important;
       border: 1px solid rgba(255, 255, 255, 0.15) !important;
       box-shadow: 0 0 6px rgba(255,255,255,0.08), 0 0 12px rgba(255,255,255,0.06) !important;
