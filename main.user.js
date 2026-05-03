@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Adamblox
 // @namespace    https://github.com/adamMasMusic/adamblox
-// @version      2.2
+// @version      2.3
 // @description  Theme, presence rings, home UI, decal uploader — all in one
 // @author       adamMasMusic
 // @match        https://www.roblox.com/*
@@ -24,67 +24,38 @@ if (location.hostname === 'www.roblox.com') {
     }
 
     /* Left sidebar */
-    .navigation-container {
-      background-color: rgba(25, 27, 29, 0.45) !important;
+    .left-nav {
+      background-color: rgba(25, 27, 29, 0.55) !important;
       border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
-      backdrop-filter: blur(10px) !important;
+      backdrop-filter: blur(12px) !important;
     }
 
     /* Top navbar */
-    .navbar-header,
-    .dark-theme .rbx-header {
-      background-color: rgba(25, 27, 29, 0.4) !important;
+    .navbar-header {
+      background-color: rgba(25, 27, 29, 0.5) !important;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
       backdrop-filter: blur(10px) !important;
     }
 
     /* Footer */
-    .container-footer,
-    .dark-theme .container-footer {
-      background-color: rgba(25, 27, 29, 0.4) !important;
+    .container-footer {
+      background-color: rgba(25, 27, 29, 0.5) !important;
       border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
       backdrop-filter: blur(8px) !important;
     }
 
-    .dark-theme .content {
-      background-color: rgba(0, 0, 0, 0) !important;
-    }
-    .dark-theme .section-content {
-      background-color: rgba(0, 0, 0, 0) !important;
-    }
-    .dark-theme .profile-avatar-left {
-      background-color: rgba(0, 0, 0, 0) !important;
-    }
-    .dark-theme #catalog-react-container .sticky .catalog-header {
-      background-color: rgba(0, 0, 0, 0) !important;
-    }
-    .dark-theme #catalog-react-page .search-bars {
-      background-color: rgba(0, 0, 0, 0) !important;
-    }
-    .dark-theme #catalog-react-container .sticky .topic-container {
-      background-color: rgba(0, 0, 0, 0) !important;
-    }
+    /* Catalog item cards — give them glass look without breaking thumbnails */
     .dark-theme #catalog-react-container .catalog-revamp .catalog-item-container .item-card-thumb-container {
-      background-color: rgba(25, 27, 29, 0.3) !important;
-      border: 1px solid rgba(255, 255, 255, 0.15) !important;
-      backdrop-filter: blur(6px) !important;
-      border-radius: 20px !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      border-radius: 12px !important;
     }
+
+    /* Chat header */
     .dark-theme .chat-container .chat-main .chat-header {
       background-color: rgba(25, 27, 29, 0.3) !important;
       border: 1px solid rgba(255, 255, 255, 0.15) !important;
       backdrop-filter: blur(6px) !important;
       border-radius: 20px !important;
-    }
-    .dark-theme .slide-switcher.groups {
-      background-color: rgba(25, 27, 29, 0.3) !important;
-      border: 1px solid rgba(255, 255, 255, 0.15) !important;
-      backdrop-filter: blur(6px) !important;
-      border-radius: 20px !important;
-    }
-    .dark-theme .slide-switcher .slide-item-container .slide-item-container-right,
-    .dark-theme .slide-switcher .slide-item-container .slide-item-container-left {
-      background-color: rgba(0, 0, 0, 0) !important;
     }
 
     /* MUI drawer / paper / menu */
@@ -92,10 +63,10 @@ if (location.hostname === 'www.roblox.com') {
     [class*="selectMenu"], [class*="SelectMenu"],
     [class*="Menu-paper"], [class*="menuPaper"],
     [class*="railContainer"] {
-      background-color: rgba(25, 27, 29, 0.3) !important;
+      background-color: rgba(25, 27, 29, 0.45) !important;
       border: 1px solid rgba(255, 255, 255, 0.15) !important;
-      backdrop-filter: blur(6px) !important;
-      border-radius: 20px !important;
+      backdrop-filter: blur(8px) !important;
+      border-radius: 16px !important;
     }
   `);
 }
